@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tea Party - Relevé Opera House</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Georgia", serif;
+        background: linear-gradient(to right, #7b0f14, #b22222, #7b0f14);
+        color: #2c1b18;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .ticket-container {
+        background: #f4efe6;
+        padding: 40px;
+        width: 520px;
+        border-radius: 12px;
+        border: 4px solid #c9a96e;
+        box-shadow: 0 0 30px rgba(0,0,0,0.4);
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        text-align: center;
+        color: #7b0f14;
+        letter-spacing: 2px;
+    }
+
+    h2 {
+        text-align: center;
+        font-style: italic;
+        color: #444;
+        margin-top: -5px;
+    }
+
+    .description {
+        text-align: center;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+        line-height: 1.4em;
+        color: #333;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    select, input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #c9a96e;
+        background: #fff;
+        font-family: inherit;
+    }
+
+    button {
+        margin-top: 25px;
+        width: 100%;
+        padding: 12px;
+        background: #7b0f14;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background: #a4161a;
+    }
+
+    .spyglass {
+        position: fixed;
+        width: 150px;
+        height: 150px;
+        border: 8px solid #c9a96e;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(3px);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 1s ease;
+        z-index: 3;
+    }
+
+    .spyglass.active {
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.6);
+        z-index: 4;
+    }
+
+    .popup {
+        background: #f4efe6;
+        padding: 30px;
+        border-radius: 10px;
+        border: 3px solid #c9a96e;
+        width: 380px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    }
+
+    .popup h3 {
+        color: #7b0f14;
+        margin-top: 0;
+    }
+
+    .close-btn {
+        margin-top: 15px;
+        padding: 8px 15px;
+        background: #7b0f14;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="ticket-container">
+    <h1>Tea Party</h1>
+    <h2>Relevé Opera House</h2>
+
+    <div class="description">
+        In a world of the highclass, a secret society gathers for their annual Tea Party.  
+        But during such an event, a horrific tragedy occurs.  
+        In the whirlwind whodunit, guests must uncover the fabrications of their interwoven net…  
+        or they could be next.
+    </div>
+
+    <label>Seat Section</label>
+    <select id="section">
+        <option>Grand Orchestra — 120 Credit</option>
+        <option>Velvet Balcony — 90 Credit</option>
+        <option>Royal Gallery — 180 Credit</option>
+    </select>
+
+    <label>Number of Tickets</label>
+    <select id="tickets">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+    </select>
+
+    <label>Name (Guest)</label>
+    <input type="text" id="name">
+
+    <label>Credit Card Number</label>
+    <input type="text" id="card">
+
+    <button onclick="processPurchase()">Confirm Reservation</button>
+</div>
+
+<div class="spyglass" id="spyglass"></div>
+
+<div class="overlay" id="overlay">
+    <div class="popup">
+        <h3>Reservation Confirmed</h3>
+        <p id="confirmationText"></p>
+        <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<audio id="mysterySound" src="mystery.mp3"></audio>
+
+<script>
+function processPurchase() {
+    var sound = document.getElementById("mysterySound");
+    sound.play();
+
+    var spyglass = document.getElementById("spyglass");
+    spyglass.classList.add("active");
+
+    var section = document.getElementById("section").value;
+    var tickets = document.getElementById("tickets").value;
+
+    document.getElementById("confirmationText").innerText =
+        "Your seats in the " + section +
+        " have been secured.\n\nTickets: " + tickets +
+        "\n\nThe society eagerly awaits your attendance.";
+
+    setTimeout(function() {
+        document.getElementById("overlay").style.display = "flex";
+    }, 1200);
+}
+
+function closePopup() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("spyglass").classList.remove("active");
+}
+</script>
+
+</body>
+</html>
